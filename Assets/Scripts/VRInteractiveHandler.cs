@@ -9,6 +9,7 @@ public class VRInteractiveHandler : MonoBehaviour {
     [SerializeField] private VRInteractiveItem interactive;
     [SerializeField] private int score;
     [SerializeField] private GameController gameController;
+    [SerializeField] private Explode explosion;
 
     // Use this for initialization
     void Start () {
@@ -45,6 +46,11 @@ public class VRInteractiveHandler : MonoBehaviour {
     private void HandleClick()
     {
         addScore();
+        // NOTE: destroy explosion immidiately and particle does not start.
+        // Destroy(gameObject);
+        renderer.enabled = false;
+        explosion.DestroyHook += () => Destroy(gameObject);
+        explosion.SetActive(true);
     }
 
     private void addScore()
