@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using VRStandardAssets.Utils;
 
 public class VRInteractiveHandler : MonoBehaviour {
@@ -8,11 +6,13 @@ public class VRInteractiveHandler : MonoBehaviour {
     [SerializeField] private Renderer renderer;
     [SerializeField] private VRInteractiveItem interactive;
     [SerializeField] private int score;
-    [SerializeField] private GameController gameController;
     [SerializeField] private Explode explosion;
+    private GameController gameController;
 
     // Use this for initialization
     void Start () {
+        var gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+        gameController = gameControllerObject.GetComponentInChildren<GameController>();
     }
 
     // Update is called once per frame
@@ -45,16 +45,21 @@ public class VRInteractiveHandler : MonoBehaviour {
 
     private void HandleClick()
     {
-        addScore();
         // NOTE: destroy explosion immidiately and particle does not start.
         // Destroy(gameObject);
         renderer.enabled = false;
-        explosion.DestroyHook += () => Destroy(gameObject);
-        explosion.SetActive(true);
+        Explode e = Instantiate(explosion, transform.position, Quaternion.identity);
+        e.DestroyHook += KillSelf;
     }
 
-    private void addScore()
+    private void KillSelf()
     {
-        gameController.addScore(score);
+        NotifyKilled();
+        Destroy(gameObject);
+    }
+
+    private void NotifyKilled()
+    {
+        gameController.EnemyKilled(score);
     }
 }
