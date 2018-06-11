@@ -17,24 +17,26 @@ public class GameController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        // scoreLabel.text = score.ToString();
-        scoreLabel.text = enemyCount.ToString();
+        scoreLabel.text = score.ToString();
+        // scoreLabel.text = enemyCount.ToString();
     }
 
     public void EnemyKilled(int s)
     {
-        enemyCount--;
+        enemyCount -= 1;
         score += s;
     }
 
     private void CreateEnemy()
     {
-        enemyCount++;
+        enemyCount += 1;
         // Vector3 position = new Vector3(Random.Range(-10.0f, 10.0f),
         //                                0,
         //                                Random.Range(-10.0f, 10.0f));
-        var position = new Vector3(0, 0, 5);
-        Instantiate(enemy, position, Quaternion.identity);
+        var z = Random.Range(5f, 25f);
+        var x = Random.Range(-5f, 5f);
+        var y = Random.Range(-5f, 5f);
+        Instantiate(enemy, new Vector3(x, y, z), Quaternion.identity);
     }
 
     IEnumerator Timer(float second)

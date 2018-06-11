@@ -13,6 +13,9 @@ public class VRInteractiveHandler : MonoBehaviour {
     void Start () {
         var gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
         gameController = gameControllerObject.GetComponentInChildren<GameController>();
+        var distance = transform.position.z / (5f * 2f);
+        transform.localScale *= distance;
+        score *= Mathf.CeilToInt(distance);
     }
 
     // Update is called once per frame
@@ -48,13 +51,13 @@ public class VRInteractiveHandler : MonoBehaviour {
         // NOTE: destroy explosion immidiately and particle does not start.
         // Destroy(gameObject);
         renderer.enabled = false;
+        NotifyKilled();
         Explode e = Instantiate(explosion, transform.position, Quaternion.identity);
         e.DestroyHook += KillSelf;
     }
 
     private void KillSelf()
     {
-        NotifyKilled();
         Destroy(gameObject);
     }
 
