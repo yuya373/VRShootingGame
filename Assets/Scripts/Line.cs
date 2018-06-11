@@ -14,14 +14,19 @@ public class Line : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        DrawTo(target.position);
+        // DrawTo(target.position);
     }
 
-    private void DrawTo(Vector3 pos)
+    public void Hide()
     {
-        lineRenderer.enabled = true;
+        lineRenderer.enabled = false;
+    }
+
+    public void DrawTo(Vector3 pos)
+    {
         lineRenderer.SetPosition(0, anchor.position);
         lineRenderer.SetPosition(1, pos);
+        lineRenderer.enabled = true;
     }
 }
 
