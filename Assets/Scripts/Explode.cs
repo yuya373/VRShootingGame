@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Explode : MonoBehaviour {
     public event System.Action DestroyHook;
+    [SerializeField] private AudioSource explosionSound;
 
     // Use this for initialization
     void Start () {
         var pss = GetComponentsInChildren<ParticleSystem>();
         var durations = new float [pss.Length];
+        explosionSound.Play();
         for (int i = 0; i < pss.Length; i++)
         {
             pss[i].Clear();
